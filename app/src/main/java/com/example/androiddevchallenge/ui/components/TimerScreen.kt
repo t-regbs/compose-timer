@@ -31,7 +31,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.progressSemantics
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
@@ -67,7 +66,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.TimerViewModel
 
@@ -107,7 +105,7 @@ fun TimerScreen(
                     )
                     Text(
                         text = "$timerMinute:$timerOneSecond$timerTwoSecond",
-                        fontSize = 22.sp
+                        style = MaterialTheme.typography.h4
                     )
                 }
                 Row(
@@ -146,7 +144,7 @@ fun TimerScreen(
                     )
                     Text(
                         text = "$timerMinute:$timerOneSecond$timerTwoSecond",
-                        fontSize = 22.sp,
+                        style = MaterialTheme.typography.h4,
                     )
                 }
 
@@ -198,7 +196,7 @@ fun TimerScreen(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(minuteAlpha),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.h4
                             )
                             IconButton(
                                 onClick = { viewModel.minuteDownPress() },
@@ -216,7 +214,7 @@ fun TimerScreen(
                             Text(
                                 text = ":",
                                 modifier = Modifier.padding(top = 45.dp),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.h4
                             )
                         }
 
@@ -237,7 +235,7 @@ fun TimerScreen(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(oneSecondAlpha),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.h4
                             )
                             IconButton(
                                 onClick = { viewModel.secondOneDownPress() },
@@ -268,7 +266,7 @@ fun TimerScreen(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(twoSecondAlpha),
-                                style = MaterialTheme.typography.h5
+                                style = MaterialTheme.typography.h4
                             )
                             IconButton(
                                 onClick = { viewModel.secondTwoDownPress() },

@@ -52,7 +52,7 @@ fun MyTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable() (
 
     MaterialTheme(
         colors = colors,
-        typography = typography,
+        typography = OrbitronTypography,
         shapes = shapes,
         content = content
     )
