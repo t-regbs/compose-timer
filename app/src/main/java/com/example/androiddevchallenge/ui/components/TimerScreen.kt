@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.ui.components
 
 import androidx.compose.animation.animateContentSize
@@ -57,10 +72,7 @@ import com.example.androiddevchallenge.R
 import com.example.androiddevchallenge.ui.TimerViewModel
 
 @Composable
-fun Timer(
-    query: String,
-    onQueryChanged: (String) -> Unit,
-    showEdt: Boolean,
+fun TimerScreen(
     state: State,
     viewModel: TimerViewModel,
     onStartTimer: () -> Unit = {},
@@ -78,7 +90,6 @@ fun Timer(
     ) {
         when (state) {
             is State.Countdown -> {
-                viewModel.showEditText(false)
                 val ratio = state.seconds / state.total.toFloat()
                 val alpha by animateFloatAsState(targetValue = ratio)
                 Box(contentAlignment = Alignment.Center) {
@@ -95,7 +106,7 @@ fun Timer(
                         contentDescription = "Dial"
                     )
                     Text(
-                        text = "${state.seconds}",
+                        text = "$timerMinute:$timerOneSecond$timerTwoSecond",
                         fontSize = 22.sp
                     )
                 }
@@ -128,23 +139,16 @@ fun Timer(
                 }
             }
             is State.Stopped -> {
-                viewModel.showEditText(true)
                 Box(contentAlignment = Alignment.Center) {
                     Image(
                         painter = painterResource(id = R.drawable.dial_stopped),
                         contentDescription = "Dial"
                     )
                     Text(
-                        text = "${state.total}",
+                        text = "$timerMinute:$timerOneSecond$timerTwoSecond",
                         fontSize = 22.sp,
                     )
                 }
-
-//                TimerEditText(
-//                    show = showEdt,
-//                    query = query,
-//                    onQueryChanged = { onQueryChanged(it) }
-//                )
 
                 Column(modifier = Modifier.fillMaxWidth()) {
                     Row(
@@ -180,7 +184,7 @@ fun Timer(
                             IconButton(
                                 onClick = { viewModel.minuteUpPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowUp,
@@ -194,12 +198,12 @@ fun Timer(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(minuteAlpha),
-                                style = MaterialTheme.typography.h1
+                                style = MaterialTheme.typography.h5
                             )
                             IconButton(
                                 onClick = { viewModel.minuteDownPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
@@ -211,8 +215,8 @@ fun Timer(
                         Column {
                             Text(
                                 text = ":",
-                                modifier = Modifier.padding(top = 40.dp),
-                                style = MaterialTheme.typography.h1
+                                modifier = Modifier.padding(top = 45.dp),
+                                style = MaterialTheme.typography.h5
                             )
                         }
 
@@ -220,7 +224,7 @@ fun Timer(
                             IconButton(
                                 onClick = { viewModel.secondOneUpPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowUp,
@@ -233,12 +237,12 @@ fun Timer(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(oneSecondAlpha),
-                                style = MaterialTheme.typography.h1
+                                style = MaterialTheme.typography.h5
                             )
                             IconButton(
                                 onClick = { viewModel.secondOneDownPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
@@ -251,7 +255,7 @@ fun Timer(
                             IconButton(
                                 onClick = { viewModel.secondTwoUpPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowUp,
@@ -264,12 +268,12 @@ fun Timer(
                                     .padding(start = 8.dp, end = 8.dp)
                                     .animateContentSize()
                                     .alpha(twoSecondAlpha),
-                                style = MaterialTheme.typography.h1
+                                style = MaterialTheme.typography.h5
                             )
                             IconButton(
                                 onClick = { viewModel.secondTwoDownPress() },
                                 enabled = true,
-                                modifier = Modifier.offset(x = 8.dp, y = 0.dp)
+                                modifier = Modifier.offset(x = (-8).dp, y = 0.dp)
                             ) {
                                 Icon(
                                     Icons.Default.KeyboardArrowDown,
@@ -297,7 +301,7 @@ fun Timer(
                     PlayButton(
                         modifier = Modifier.padding(horizontal = 45.dp).size(60.dp),
                         onClick = onStartTimer,
-                        enabled = state.total > 0,
+                        enabled = true,
                         icon = Icons.Filled.PlayArrow,
                         iconSize = 30.dp
                     )
@@ -341,7 +345,7 @@ private fun PlayButton(
 sealed class State(val total: Int) {
     class Stopped(seconds: Int = 0) : State(seconds)
 
-    class Paused(seconds: Int = 0) : State(seconds)
+//    class Paused(seconds: Int = 0) : State(seconds)
 
     class Countdown(total: Int, val seconds: Int) : State(total)
 }

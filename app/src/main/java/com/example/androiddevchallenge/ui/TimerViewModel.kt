@@ -1,3 +1,18 @@
+/*
+ * Copyright 2021 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.example.androiddevchallenge.ui
 
 import androidx.compose.runtime.mutableStateOf
@@ -29,27 +44,6 @@ class TimerViewModel : ViewModel() {
 
     private val _secondTwoTimer = MutableLiveData(0)
     val secondTwoTimer: LiveData<Int> = _secondTwoTimer
-
-    val isEditTextShowing = mutableStateOf(true)
-
-    /**
-     * Update value when EditText content changed
-     * @param text new content in EditText
-     */
-    fun updateValue(text: String) {
-        // Just in case the number is too big
-        if (text.length > 5) return
-        // Remove non-numeric elements
-        var value = text.replace("\\D".toRegex(), "")
-        // Zero cannot appear in the first place
-        if (value.startsWith("0")) value = value.substring(1)
-        // Set a default value to prevent NumberFormatException
-        if (value.isBlank()) value = "0"
-//        totalTime.value = value.toLong()
-//        timeLeft.value = value.toLong()
-
-        _state.value = State.Stopped(value.toInt())
-    }
 
     fun minuteUpPress() {
         _minuteTimer.value?.let {
@@ -111,7 +105,7 @@ class TimerViewModel : ViewModel() {
         }
     }
 
-    fun secondDown() {
+    private fun secondDown() {
         if (_secondTwoTimer.value != 0) {
             _secondTwoTimer.value?.let { _secondTwoTimer.value = it - 1 }
             if (
@@ -136,17 +130,14 @@ class TimerViewModel : ViewModel() {
         }
     }
 
-//    fun pauseTimer() {
-//        _countdownState.value = CountdownState.PAUSED
-//    }
-
     @InternalCoroutinesApi
     fun startTimer() {
         val currentState = _state.value
         if (currentState !is State.Stopped) {
             return
         }
-        val seconds = currentState.total
+//        val seconds = currentState.total
+        val seconds = (_minuteTimer.value!!.times(60)) + (_secondOneTimer.value?.times(10)!!) + _secondTwoTimer.value!!
         if (seconds <= 0) {
             return
         }
@@ -156,6 +147,7 @@ class TimerViewModel : ViewModel() {
                 _state.value = if (it == 0) {
                     State.Stopped(0)
                 } else {
+                    secondDown()
                     State.Countdown(seconds, it)
                 }
             }
@@ -172,20 +164,6 @@ class TimerViewModel : ViewModel() {
         _minuteTimer.value?.let { _minuteTimer.value = 0 }
         _secondOneTimer.value?.let { _secondOneTimer.value = 0 }
         _secondTwoTimer.value?.let { _secondTwoTimer.value = 0 }
-    }
-
-    fun showEditText(show: Boolean) {
-        isEditTextShowing.value = show
-    }
-
-    fun onQueryChanged(query: String) {
-        setQuery(query)
-    }
-
-    private fun setQuery(query: String) {
-        this.query.value = query
-//        savedStateHandle.set(STATE_KEY_QUERY, query)
-        updateValue(query)
     }
 
     private fun timer(seconds: Int): Flow<Int> = flow {
