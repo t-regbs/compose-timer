@@ -1,4 +1,4 @@
-#compose-timer
+# compose-timer
 
 ![Workflow result](https://github.com/t-regbs/compose-timer/workflows/Check/badge.svg)
 
@@ -10,6 +10,8 @@ Compose timer is a beautiful countdown timer android app written with jetpack co
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 <!--- What are you especially proud of? -->
+Timer animation gets deeper as time gets nearer 🙃
+![](https://media.giphy.com/media/hfWX87vMZyTdCLc9nz/giphy.gif)
 
 
 ## :camera_flash: Screenshots
